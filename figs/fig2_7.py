@@ -1,3 +1,4 @@
+!pip install qrcode[pil] arabic_reshaper python-bidi
 
 import numpy as np
 import pandas as pd
