@@ -9,6 +9,7 @@ from bidi.algorithm import get_display
 import qrcode
 from PIL import Image
 import matplotlib as mpl
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 # تابع برای نمایش صحیح متون فارسی
 def bidi_text(text):
