@@ -107,10 +107,9 @@ ax.annotate(persian_text('تغییر مفهومی'),
              fontsize=24)
 
 ax.annotate(persian_text('داده پرت'),
-             xy=(9, 5.1), xytext=(7.2, 4.7),
+             xy=(9, 5.1), xytext=(8, 4.7),
              arrowprops=dict(facecolor='orange', arrowstyle='->'),
-             fontsize=24,
-             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="orange", alpha=0.8))
+             fontsize=24)
 
 # =============================================================================
 # ایجاد و اضافه کردن بارکد
