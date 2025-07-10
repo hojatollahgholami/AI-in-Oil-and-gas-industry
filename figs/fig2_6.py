@@ -107,7 +107,7 @@ ax.annotate(persian_text('تغییر مفهومی'),
              fontsize=24)
 
 ax.annotate(persian_text('داده پرت'),
-             xy=(9, 5.1), xytext=(7, 4.7),
+             xy=(9, 5.1), xytext=(7.2, 4.7),
              arrowprops=dict(facecolor='orange', arrowstyle='->'),
              fontsize=24,
              bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="orange", alpha=0.8))
@@ -117,7 +117,7 @@ ax.annotate(persian_text('داده پرت'),
 # =============================================================================
 # ایجاد بارکد برای لینک 
 qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L,box_size=5, border=2)
-qr.add_data("https://github.com/hojatollahgholami/AI-in-Oil-and-gas-industry/edit/main/figs/fig6_2.py")
+qr.add_data("https://github.com/hojatollahgholami/AI-in-Oil-and-gas-industry/edit/main/figs/fig2_6.py")
 qr.make(fit=True)
 
 # تبدیل بارکد به تصویر
