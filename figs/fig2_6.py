@@ -33,7 +33,7 @@ pressure = np.concatenate([
 ])
 
 # افزودن داده‌های پرت
-pressure[5] = 5.2   # داده پرت در بخش اول
+pressure[9] = 5.2   # داده پرت در بخش اول
 pressure[18] = 2.3  # داده پرت در بخش دوم
 
 # تعریف رنگ‌ها و دسته‌ها
@@ -51,7 +51,7 @@ for i in range(len(time)):
         categories.append(persian_text('تغییر مفهومی'))
 
 # مشخص کردن داده‌های پرت
-outliers = [5, 18]
+outliers = [9, 18]
 for i in outliers:
     colors[i] = 'orange'
     if i < 15:
@@ -80,8 +80,8 @@ slope_y = pressure[25:]
 ax.plot(slope_x, slope_y, 'r--', alpha=0.5)
 
 # تنظیمات نمودار
-ax.set_xlabel(persian_text('زمان (ساعت)'), fontsize=16)
-ax.set_ylabel(persian_text('فشار (بار)'), fontsize=16)
+ax.set_xlabel(persian_text('زمان (ساعت)'), fontsize=24)
+ax.set_ylabel(persian_text('فشار (بار)'), fontsize=24)
 ax.grid(alpha=0.2)
 
 # ایجاد راهنما
@@ -91,7 +91,7 @@ ax.legend(
     unique_labels.values(),
     unique_labels.keys(),
     loc='upper left',
-    fontsize=16
+    fontsize=24
 )
 
 # افزودن توضیحات
@@ -99,17 +99,17 @@ ax.legend(
 ax.annotate(persian_text('تغییر داده'),
              xy=(15, 4.05), xytext=(12, 4.2),
              arrowprops=dict(facecolor='green', arrowstyle='->'),
-             fontsize=16)
+             fontsize=24)
 
 ax.annotate(persian_text('تغییر مفهومی'),
              xy=(25, 4.05), xytext=(21, 4.5),
              arrowprops=dict(facecolor='red', arrowstyle='->'),
-             fontsize=16)
+             fontsize=24)
 
 ax.annotate(persian_text('داده پرت'),
-             xy=(5, 5.1), xytext=(7, 5),
+             xy=(9, 5.1), xytext=(7, 4.7),
              arrowprops=dict(facecolor='orange', arrowstyle='->'),
-             fontsize=16,
+             fontsize=24,
              bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="orange", alpha=0.8))
 
 # =============================================================================
@@ -131,7 +131,7 @@ img_np = np.array(img)
 imagebox = OffsetImage(img_np, zoom=0.5)
 ab = AnnotationBbox(imagebox, (0.9, 0.08),
                     xycoords='axes fraction',
-                    box_alignment=(1, 0),
+                    box_alignment=(1, 0.2),
                     frameon=False,
                     pad=0)
 
