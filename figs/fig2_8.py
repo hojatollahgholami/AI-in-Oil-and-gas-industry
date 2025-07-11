@@ -123,5 +123,5 @@ ab = AnnotationBbox(imagebox, (0.9, 0.08),
 # اضافه کردن بارکد به نمودار
 axs[0, 1].add_artist(ab)
 
-plt.savefig('fig2-8.png', dpi=300)
+plt.savefig('fig2-8.png', dpi=300, bbox_inches='tight')
 plt.show()
