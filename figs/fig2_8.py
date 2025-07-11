@@ -18,8 +18,8 @@ def bidi_text(text):
     return get_display(reshaped_text)
 
 # تنظیمات اولیه
-plt.rcParams['font.family'] = 'Tahoma'
-plt.rcParams['font.size'] = 18
+plt.rcParams['font.family'] = 'Adobe Arabic' #'Microsoft Uighur'
+plt.rcParams['font.size'] = 21
 mpl.rcParams['axes.unicode_minus'] = False
 np.random.seed(42)
 
@@ -44,8 +44,6 @@ df['Z-Score'] = np.abs(stats.zscore(df['دما']))
 
 # ایجاد نمودارها در یک گرید 2x2
 fig, axs = plt.subplots(2, 2, figsize=(15, 12))
-#fig.suptitle(bidi_text('تحلیل داده‌های حسگر دمای برج تقطیر'),
- #            fontsize=16, fontweight='bold')
 
 # 1. نمودار جعبه‌ای
 sns.boxplot(y=df['دما'], ax=axs[0, 0], color='skyblue')
@@ -99,15 +97,6 @@ axs[1, 1].grid(alpha=0.3)
 axs[1, 1].axhline(y=3, color='red', linestyle='--',
                   label=bidi_text('آستانه Z=3'))
 axs[1, 1].legend()
-
-# افزودن توضیحات به نمودار Z-Score
-for i in df[df['Z-Score'] > 3].index:
-    axs[1, 1].annotate(bidi_text(f"{df.loc[i, 'دما']:.1f}C°"),
-                      (df.loc[i, 'زمان'], df.loc[i, 'Z-Score']),
-                      textcoords="offset points",
-                      xytext=(0,10),
-                      ha='center',
-                      fontsize=9)
 
 # تنظیم فاصله‌گذاری
 #plt.tight_layout(rect=[0, 0, 1, 0.96])  # ایجاد فضای کافی برای عنوان اصلی
