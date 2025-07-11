@@ -87,5 +87,5 @@ ab = AnnotationBbox(
 ax.add_artist(ab)
 
 plt.tight_layout()
-plt.savefig('fig2-9.png', dpi=300, bbox_inches='tight')
+plt.savefig('fig2-10.png', dpi=300, bbox_inches='tight')
 plt.show()
