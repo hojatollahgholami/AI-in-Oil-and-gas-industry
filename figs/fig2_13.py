@@ -1,4 +1,4 @@
-!pip install python_bidi arabic_reshaper 
+!pip install qrcode[pil] arabic_reshaper python-bidi 
 
 import numpy as np
 import matplotlib.pyplot as plt
