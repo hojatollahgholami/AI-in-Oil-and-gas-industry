@@ -26,6 +26,7 @@ The dataset contains time-domain vibration signals in .mat format.
 Fault Diameter 0.014"
 
 Motor_Load(HP) 	Approx._Motor_Speed (rpm) 	Inner_Race 	Ball 	Outer_Race_Position_Relative_to_Load_Zone_6:00
+
 0 	1797 	IR014_0 	B014_0 	OR014@6_0
 
 1 	1772 	IR014_1 	B014_1 	OR014@6_1
