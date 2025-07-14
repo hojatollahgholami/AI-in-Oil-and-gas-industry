@@ -27,6 +27,9 @@ Fault Diameter 0.014"
 
 Motor_Load(HP) 	Approx._Motor_Speed (rpm) 	Inner_Race 	Ball 	Outer_Race_Position_Relative_to_Load_Zone_6:00
 0 	1797 	IR014_0 	B014_0 	OR014@6_0
+
 1 	1772 	IR014_1 	B014_1 	OR014@6_1
+
 2 	1750 	IR014_2 	B014_2 	OR014@6_2
+
 3 	1730 	IR014_3 	B014_3 	OR014@6_3 
