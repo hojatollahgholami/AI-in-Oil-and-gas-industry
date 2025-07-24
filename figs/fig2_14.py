@@ -155,6 +155,5 @@ ab = AnnotationBbox(
 ax2.add_artist(ab)
 
 plt.tight_layout()
-plt.subplots_adjust(top=0.90, wspace=0.25)
 plt.savefig('fig2_14.png', dpi=300, bbox_inches='tight')
 plt.show()
