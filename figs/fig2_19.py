@@ -101,7 +101,7 @@ for i, (name, model) in enumerate(models.items()):
 
 # ایجاد بارکد
 qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=5, border=2)
-qr.add_data("https://B2n.ir/mm4460")
+qr.add_data("https://B2n.ir/yd5927")
 qr.make(fit=True)
 
 # تبدیل بارکد به تصویر
