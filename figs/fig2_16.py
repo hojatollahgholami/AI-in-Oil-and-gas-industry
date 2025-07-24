@@ -6,6 +6,9 @@ from sklearn.pipeline import make_pipeline
 import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
+import qrcode
+from PIL import Image
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 # تابع برای نمایش صحیح متون فارسی
 def bidi_text(text):
