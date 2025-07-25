@@ -175,7 +175,7 @@ ax4.view_init(elev=20, azim=45)
 
 # ایجاد بارکد
 qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=5, border=2)
-qr.add_data("https://B2n.ir/yd5927")
+qr.add_data("https://B2n.ir/tz5729")
 qr.make(fit=True)
 
 # تبدیل بارکد به تصویر
