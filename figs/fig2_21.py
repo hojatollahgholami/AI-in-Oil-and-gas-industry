@@ -89,7 +89,7 @@ for i, gen in enumerate(gens):
                 alpha=0.6, s=50, color=colors[i], edgecolor='k')
 
 ax.set_xlabel(persian_text("هزینه حفاری"))
-ax.set_ylabel(persian_text("منفی برداشت"))
+ax.set_ylabel(persian_text("منفی میزان تولید"))
 ax.legend()
 ax.grid(True)
 
