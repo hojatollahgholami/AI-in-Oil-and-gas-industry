@@ -1,177 +1,108 @@
-pip install pymoo
-
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from pymoo.core.problem import Problem
-from pymoo.algorithms.moo.nsga2 import NSGA2
-from pymoo.optimize import minimize as minimize_moo
-from arabic_reshaper import arabic_reshaper
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from arabic_reshaper import reshape
 from bidi.algorithm import get_display
 import qrcode
 from PIL import Image
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
 # تنظیمات فارسی‌نویسی
-plt.rcParams["font.family"] = "B Nazanin"
+plt.rcParams["font.family"] = 'Adobe Arabic'
 plt.rcParams["axes.unicode_minus"] = False
-plt.rcParams['font.size'] = 18
+plt.rcParams['font.size'] = 20
 
+# تابع برای نمایش متن فارسی
 def persian_text(text):
-    reshaped = arabic_reshaper.reshape(text)
+    reshaped = reshape(text)
     return get_display(reshaped)
 
-# =============================================================================
-# مسئله بهینه‌سازی انتخاب تجهیزات خط لوله گاز
-# =============================================================================
-class GasPipelineOptimization(Problem):
-    def __init__(self):
-        """
-        بهینه سازی انتخاب تجهیزات برای خط لوله گاز
-        متغیرهای تصمیم:
-          x: قطر لوله (اینچ)
-          y: فشار کاری (بار)
-          z: ضخامت دیواره لوله (میلی متر)
+# مرحله ۱: داده‌های فرضی واقعی (x, y, cost)
+np.random.seed(0)
+x_data = np.random.uniform(-5, 5, 50)
+y_data = np.random.uniform(-5, 5, 50)
+# فرض تابع هزینه واقعی: ترکیب چندجمله‌ای درجه 2 + نویز
+cost_data = 3 + 2*x_data + y_data**2 - 0.5*x_data*y_data + np.random.normal(0, 2, 50)
 
-        اهداف:
-          1. حداقل سازی هزینه ساخت
-          2. حداقل سازی تلفات انرژی
-          3. حداکثرسازی ایمنی
-        """
-        super().__init__(n_var=3, n_obj=3, n_constr=0,
-                         xl=np.array([10, 20, 5]),
-                         xu=np.array([50, 100, 30]))
+# مرحله ۲: برازش مدل رگرسیون چندجمله‌ای درجه 2
+X_train = np.vstack([x_data, y_data]).T
+poly = PolynomialFeatures(degree=2)
+X_poly = poly.fit_transform(X_train)
+model = LinearRegression().fit(X_poly, cost_data)
 
-    def _evaluate(self, X, out, *args, **kwargs):
-        diameter, pressure, thickness = X[:, 0], X[:, 1], X[:, 2]
+# مرحله ۳: ساخت مش برای ترسیم سطح
+x_range = np.linspace(-6, 6, 100)
+y_range = np.linspace(-6, 6, 100)
+X_mesh, Y_mesh = np.meshgrid(x_range, y_range)
+XY_mesh = np.c_[X_mesh.ravel(), Y_mesh.ravel()]
+Z_mesh = model.predict(poly.transform(XY_mesh)).reshape(X_mesh.shape)
 
-        # تابع هدف 1: هزینه ساخت
-        material_cost = 0.05 * diameter * thickness
-        installation_cost = 0.02 * diameter**2
-        f1 = material_cost + installation_cost
+# مرحله ۴: تعریف تابع هزینه و گرادیان‌ها برای بهینه‌سازی
+def cost_function(x, y):
+    input_poly = poly.transform([[x, y]])
+    return model.predict(input_poly)[0]
 
-        # تابع هدف 2: تلفات انرژی
-        # تلفات انرژی با فشار رابطه معکوس و با قطر رابطه مستقیم دارد
-        energy_loss = 1000 / (pressure * np.sqrt(diameter))
-        f2 = energy_loss
+def gradient(x, y):
+    eps = 1e-4
+    dx = (cost_function(x + eps, y) - cost_function(x - eps, y)) / (2 * eps)
+    dy = (cost_function(x, y + eps) - cost_function(x, y - eps)) / (2 * eps)
+    return np.array([dx, dy])
 
-        # تابع هدف 3: ایمنی (منفی می کنیم چون می خواهیم ماکزیمم شود)
-        # ایمنی با ضخامت رابطه مستقیم و با فشار رابطه معکوس دارد
-        safety = (thickness / 5) * (100 / pressure)
-        f3 = -safety  # منفی برای ماکزیمم سازی
+def hessian(x, y):
+    eps = 1e-4
+    dxx = (cost_function(x + eps, y) - 2*cost_function(x, y) + cost_function(x - eps, y)) / (eps**2)
+    dyy = (cost_function(x, y + eps) - 2*cost_function(x, y) + cost_function(x, y - eps)) / (eps**2)
+    dxy = (cost_function(x + eps, y + eps) - cost_function(x + eps, y - eps) -
+           cost_function(x - eps, y + eps) + cost_function(x - eps, y - eps)) / (4 * eps**2)
+    return np.array([[dxx, dxy], [dxy, dyy]])
 
-        out["F"] = np.column_stack([f1, f2, f3])
+# مرحله ۵: گرادیان کاهشی
+path_gd = []
+x, y = -4.5, -4.5
+for _ in range(30):
+    path_gd.append((x, y, cost_function(x, y)))
+    grad = gradient(x, y)
+    x, y = x - 0.1 * grad[0], y - 0.1 * grad[1]
 
-# ایجاد و حل مسئله
-problem = GasPipelineOptimization()
-algorithm = NSGA2(pop_size=100)
-res = minimize_moo(problem, algorithm, ('n_gen', 50), seed=1, verbose=False)
+# مرحله ۶: روش نیوتن
+path_nt = []
+x, y = -4.5, -4.5
+for _ in range(10):
+    path_nt.append((x, y, cost_function(x, y)))
+    grad = gradient(x, y)
+    hess = hessian(x, y)
+    try:
+        delta = np.linalg.solve(hess, grad)
+        x, y = x - delta[0], y - delta[1]
+    except np.linalg.LinAlgError:
+        break  # اگر هسین منفرد بود، ادامه نده
 
-# استخراج نتایج
-solutions = res.X
-objectives = res.F
+# تبدیل مسیرها به آرایه برای ترسیم
+path_gd = np.array(path_gd)
+path_nt = np.array(path_nt)
 
-# جداسازی مقادیر
-diameters = solutions[:, 0]
-pressures = solutions[:, 1]
-thicknesses = solutions[:, 2]
-costs = objectives[:, 0]
-energy_losses = objectives[:, 1]
-safety = -objectives[:, 2]  # تبدیل به مثبت برای ایمنی واقعی
+# مرحله ۷: ترسیم نهایی
+fig = plt.figure(figsize=(12, 8))
+ax = fig.add_subplot(111, projection='3d')
 
-# =============================================================================
-# ترسیم نمودارهای شفاف
-# =============================================================================
-fig = plt.figure(figsize=(18, 12))
+# سطح هزینه
+ax.plot_surface(X_mesh, Y_mesh, Z_mesh, cmap='viridis', alpha=0.7)
 
-# ساختار GridSpec برای چیدمان نمودارها
-gs = gridspec.GridSpec(2, 2, width_ratios=[1, 1.2], height_ratios=[1, 1])
+# نقاط داده اصلی
+ax.scatter(x_data, y_data, cost_data, c='r', marker='x', label=persian_text('داده ها'))
 
-# نمودار 1: رابطه بین قطر لوله و فشار کاری
-ax1 = fig.add_subplot(gs[0])
-sc1 = ax1.scatter(diameters, pressures, c=costs, cmap='viridis', s=80, alpha=0.8)
+# مسیر گرادیان کاهشی
+ax.plot(path_gd[:,0], path_gd[:,1], path_gd[:,2], color='blue', marker='^', label=persian_text('گرادیان کاهشی'))
 
-# خطوط راهنما برای محدوده‌های ایمنی
-ax1.axvline(20, color='r', linestyle='--', alpha=0.4)
-ax1.axvline(40, color='r', linestyle='--', alpha=0.4)
-ax1.axhline(40, color='g', linestyle='--', alpha=0.4)
-ax1.axhline(80, color='g', linestyle='--', alpha=0.4)
+# مسیر نیوتن
+ax.plot(path_nt[:,0], path_nt[:,1], path_nt[:,2], color='orange', marker='+', label=persian_text('روش نیوتن'))
 
-ax1.set_xlabel(persian_text('قطر لوله (اینچ)'), fontsize=21)
-ax1.set_ylabel(persian_text('فشار کاری (بار)'), fontsize=21)
-ax1.set_title(persian_text('رابطه قطر لوله و فشار کاری با رنگ نشان دهنده هزینه'), fontsize=21)
-ax1.grid(alpha=0.3)
-
-cbar1 = plt.colorbar(sc1, ax=ax1)
-cbar1.set_label(persian_text('هزینه ساخت (هزار دلار)'), fontsize=21)
-
-# توضیحات مناطق
-ax1.annotate(persian_text('منطقه ایمن'),
-            xy=(30, 60), xytext=(15, 70),
-            arrowprops=dict(arrowstyle='->'))
-ax1.annotate(persian_text('هزینه بالا'),
-            xy=(45, 90), xytext=(35, 70),
-            arrowprops=dict(arrowstyle='->'))
-
-# نمودار 2: رابطه بین ایمنی و تلفات انرژی
-ax2 = fig.add_subplot(gs[1])
-sc2 = ax2.scatter(safety, energy_losses, c=thicknesses, cmap='plasma', s=80)
-
-# خط روند
-z = np.polyfit(safety, energy_losses, 1)
-p = np.poly1d(z)
-ax2.plot(safety, p(safety), 'r--', alpha=0.7)
-
-ax2.set_xlabel(persian_text('سطح ایمنی'), fontsize=21)
-ax2.set_ylabel(persian_text('تلفات انرژی (کیلووات ساعت)'), fontsize=21)
-ax2.set_title(persian_text('مبادله ایمنی و تلفات انرژی'), fontsize=21)
-ax2.grid(alpha=0.3)
-
-cbar2 = plt.colorbar(sc2, ax=ax2)
-cbar2.set_label(persian_text('ضخامت دیواره (میلی متر)'), fontsize=21)
-
-# نمودار 3: تاثیر ضخامت دیواره بر هزینه و ایمنی
-ax3 = fig.add_subplot(gs[2])
-sc3 = ax3.scatter(thicknesses, costs, c=safety, cmap='coolwarm', s=80)
-
-# تقسیم بندی مناطق
-ax3.fill_between([5, 15], 0, 15, color='green', alpha=0.1)
-ax3.fill_between([15, 30], 0, 15, color='yellow', alpha=0.1)
-ax3.fill_between([25, 30], 0, 15, color='red', alpha=0.1)
-
-ax3.set_xlabel(persian_text('ضخامت دیواره (میلی‌متر)'), fontsize=21)
-ax3.set_ylabel(persian_text('هزینه ساخت (هزار دلار)'), fontsize=21)
-ax3.set_title(persian_text('تاثیر ضخامت دیواره بر هزینه و ایمنی'), fontsize=21)
-ax3.grid(alpha=0.3)
-
-cbar3 = plt.colorbar(sc3, ax=ax3)
-cbar3.set_label(persian_text('سطح ایمنی'), fontsize=21)
-
-# توضیحات مناطق
-ax3.text(8, 3, persian_text('منطقه بهینه'), fontsize=21, color='green')
-ax3.text(16, 3, persian_text('منطقه قابل قبول'), fontsize=21, color='orange')
-ax3.text(25, 3, persian_text('هزینه بالا'), fontsize=21, color='red')
-
-# نمودار 4: جبهه پارتو سه‌بعدی
-ax4 = fig.add_subplot(gs[3], projection='3d')
-
-# نقاط جبهه پارتو
-sc4 = ax4.scatter(costs, energy_losses, safety,
-                 c=thicknesses, cmap='viridis', s=50, alpha=0.8)
-
-# برچسب‌های محورها
-ax4.set_xlabel(persian_text('هزینه ساخت'), fontsize=21, labelpad=15)
-ax4.set_ylabel(persian_text('تلفات انرژی'), fontsize=21, labelpad=15)
-ax4.set_zlabel(persian_text('سطح ایمنی'), fontsize=21, labelpad=15)
-ax4.set_title(persian_text('جبهه پارتو سه بعدی اهداف بهینه سازی'), fontsize=21)
-
-# جهت‌های بهینه‌سازی
-ax4.quiver(0, 0, 0, 15, 0, 0, color='r', arrow_length_ratio=0.1, label=persian_text('کاهش هزینه'))
-ax4.quiver(0, 0, 0, 0, 100, 0, color='g', arrow_length_ratio=0.1, label=persian_text('کاهش تلفات'))
-ax4.quiver(0, 0, 0, 0, 0, 100, color='b', arrow_length_ratio=0.1, label=persian_text('افزایش ایمنی'))
-
-ax4.legend()
-ax4.view_init(elev=20, azim=45)
+ax.set_xlabel("x (km)")
+ax.set_ylabel("y (km)")
+ax.set_zlabel(persian_text("هزینه حفاری (میلیون دلار)"))
+ax.legend()
 
 # ایجاد بارکد
 qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=5, border=2)
@@ -187,7 +118,7 @@ img_np = np.array(img)
 imagebox = OffsetImage(img_np, zoom=0.8)  
 ab = AnnotationBbox(
     imagebox, 
-    (0.16, 0.3),  
+    (0.65, 0.17),  
     xycoords='figure fraction',  # استفاده از مختصات شکل اصلی
     box_alignment=(1, 0), 
     frameon=False,
@@ -195,11 +126,8 @@ ab = AnnotationBbox(
 )
 
 # اضافه کردن بارکد به محور فعلی
-ax3.add_artist(ab)
+ax.add_artist(ab)
 
-# تنظیم فاصله‌ها
-plt.tight_layout(rect=[0, 0, 1, 0.96])
-plt.subplots_adjust(wspace=0.25, hspace=0.3)
-
+plt.tight_layout()
 plt.savefig('fig2_20.png', dpi=300, bbox_inches='tight')
 plt.show()
