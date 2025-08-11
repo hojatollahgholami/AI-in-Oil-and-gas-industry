@@ -81,22 +81,21 @@ res = minimize(problem,
 colors = ['gray', 'blue', 'green', 'red']
 gens = [0, 10, 20, -1]  # نسل‌های انتخابی: اولیه، میانه، نهایی
 
-plt.figure(figsize=(8,6))
+fig, ax = plt.subplots(figsize=(8,6))
 for i, gen in enumerate(gens):
     pop = callback.data["pop"][gen]
     plt.scatter(pop[:,0], pop[:,1],
                 label=persian_text(f"نسل {gen if gen != -1 else len(callback.data['pop'])-1}"),
                 alpha=0.6, s=50, color=colors[i], edgecolor='k')
 
-plt.xlabel(persian_text("هزینه حفاری"))
-plt.ylabel(persian_text("منفی برداشت"))
-plt.title(persian_text("مسیر تکامل جمعیت NSGA-II در بهینه‌سازی چندهدفه"))
-plt.legend()
-plt.grid(True)
+ax.set_xlabel(persian_text("هزینه حفاری"))
+ax.set_ylabel(persian_text("منفی برداشت"))
+ax.legend()
+ax.grid(True)
 
 # ایجاد بارکد
 qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=5, border=2)
-qr.add_data("https://B2n.ir/tz5729")
+qr.add_data("https://B2n.ir/ew2772")
 qr.make(fit=True)
 
 # تبدیل بارکد به تصویر
@@ -108,7 +107,7 @@ img_np = np.array(img)
 imagebox = OffsetImage(img_np, zoom=0.8)  
 ab = AnnotationBbox(
     imagebox, 
-    (0.65, 0.17),  
+    (0.7, 0.13),  
     xycoords='figure fraction',  # استفاده از مختصات شکل اصلی
     box_alignment=(1, 0), 
     frameon=False,
@@ -118,6 +117,6 @@ ab = AnnotationBbox(
 # اضافه کردن بارکد به محور فعلی
 ax.add_artist(ab)
 
-plt.tight_layout()
-plt.savefig('fig2_21.png', dpi=300, bbox_inches='tight')
+fig.tight_layout()
+fig.savefig('fig2_21.png', dpi=300, bbox_inches='tight')
 plt.show()
