@@ -1,5 +1,4 @@
-این مثال براساس دیتاست سایت kaggle ایجاد شده است.دیتاست اطلاعات یک چاه منفرد را براساس داده های سایت Kansas Geological Survey (http://www.kgs.ku.edu) استخراج شده است.
+این مثال براساس دیتاست سازمان زمین شناسی کانزاس Kansas Geological Surveyایجاد شده است. دیتاست دارای اطلاعات تولید نفت و گاز، تعداد چاه ها، تاریخ اکتشاف و موقعیت از سال های 2020 تا 2025 در ایالت کانزاس می باشد. 
+ref: https://www.kgs.ku.edu/Magellan/Field/fields_2020_present.xlsx
 
-ref: https://www.kaggle.com/datasets/prateekvyas/well-log-data/data
 
-This is a well log file which contains approximately 8000 lines of data containing data of Resistivity, Spontaneous Potential, Gamma ray, Bulk density, Neutron and density porosity data. The data can be used to experiment and train small deep learning models, Which can further be transferred to big datasets.
