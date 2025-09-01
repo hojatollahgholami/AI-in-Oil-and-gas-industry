@@ -15,4 +15,32 @@ class{events_names = {0: 'Normal',
                 8: 'Hydrate in Production Line'
                }}
                
-columns = ['P-PDG','P-TPT','T-TPT','P-MON-CKP','T-JUS-CKP','P-JUS-CKGL','T-JUS-CKGL','QGL','class']
+columns = ['P-PDG':Permanent Downhole Gauge (PDG)
+
+,'P-TPT': Pressure Transducer (TPT)
+
+'T-TPT': Temperature Transducer (TPT)
+
+'P-MON-CKP':
+
+'T-JUS-CKP':
+
+'P-JUS-CKGL':
+
+'T-JUS-CKGL':
+
+'QGL':
+
+'class':events_names]
+
+ The PDG remains fixed in a certain position of the production tubing, and the TPT is part of the subsea Christmas tree. A Downhole Safety Valve (DHSV) and a Production Choke (PCK) are valves and are better explained in the next subsection.
+ •
+Pressure at the PDG;
+•
+Pressure at the TPT;
+•
+Temperature at the TPT;
+•
+Pressure upstream of the PCK;
+•
+Temperature downstream of the PCK.
