@@ -1,7 +1,8 @@
 این مثال براساس دیتاست رویدادهای نادر و نامطلوب چاه های نفت و گاز \یاده سازی شده است. جهت دسترسی به دیتاست از آدرس زیر استفاده شود. فایل ها \س از دانلود. استخراج و در \وشه کاری قرار گیرد.
 
+https://data.mendeley.com/datasets/r7774rwc7v/1
 
-https://github.com/ricardovvargas/3w_dataset/tree/master/data
+Vargas, Ricardo; Munaro, Celso; Ciarelli, Patrick; Medeiros, André; Amaral, Bruno; Barrionuevo, Daniel; Araújo, Jean; Ribeiro, Jorge; Magalhães, Lucas (2019), “Data for: A Realistic and Public Dataset with Rare Undesirable Real Events in Oil Wells”, Mendeley Data, V1, doi: 10.17632/r7774rwc7v.1
 
 
 class{events_names = {0: 'Normal',
@@ -33,16 +34,6 @@ columns = [
 
 'QGL':
 
-'class':events_names]
+'class':events_names
+]
 
- The PDG remains fixed in a certain position of the production tubing, and the TPT is part of the subsea Christmas tree. A Downhole Safety Valve (DHSV) and a Production Choke (PCK) are valves and are better explained in the next subsection.
- •
-Pressure at the PDG;
-•
-Pressure at the TPT;
-•
-Temperature at the TPT;
-•
-Pressure upstream of the PCK;
-•
-Temperature downstream of the PCK.
