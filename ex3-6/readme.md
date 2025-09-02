@@ -15,7 +15,9 @@ class{events_names = {0: 'Normal',
                 8: 'Hydrate in Production Line'
                }}
                
-columns = ['P-PDG':Permanent Downhole Gauge (PDG)
+columns = [
+
+'P-PDG':Permanent Downhole Gauge (PDG)
 
 ,'P-TPT': Pressure Transducer (TPT)
 
