@@ -1,39 +1,38 @@
-این مثال براساس دیتاست رویدادهای نادر و نامطلوب چاه های نفت و گاز \یاده سازی شده است. جهت دسترسی به دیتاست از آدرس زیر استفاده شود. فایل ها \س از دانلود. استخراج و در \وشه کاری قرار گیرد.
+در این مثال از دیتاست شبیه سازی یک برج تقطیر نفت استفاده شده است. 
 
-https://data.mendeley.com/datasets/r7774rwc7v/1
+Ref: https://www.kaggle.com/datasets/amarhaiqal/aspen-hysys-distillation-column-data/data 
 
-Cite: Vargas, Ricardo; Munaro, Celso; Ciarelli, Patrick; Medeiros, André; Amaral, Bruno; Barrionuevo, Daniel; Araújo, Jean; Ribeiro, Jorge; Magalhães, Lucas (2019), “Data for: A Realistic and Public Dataset with Rare Undesirable Real Events in Oil Wells”, Mendeley Data, V1, doi: 10.17632/r7774rwc7v.1
+This dataset simulates readings from distillation column which used to distillate HX and TX component
 
+Attributes
+Sensor1 : Liquid Percentage in Condenser
 
-class{events_names = {0: 'Normal',
-                1: 'Abrupt Increase of BSW',
-                2: 'Spurious Closure of DHSV',
-                3: 'Severe Slugging',
-                4: 'Flow Instability',
-                5: 'Rapid Productivity Loss',
-                6: 'Quick Restriction in PCK',
-                7: 'Scaling in PCK',
-                8: 'Hydrate in Production Line'
-               }}
-               
-columns = [
+Sensor2: Condenser Pressure
 
-'P-PDG':Permanent Downhole Gauge (PDG)
+Sensor3: Liquid Percentage in Reboiler
 
-,'P-TPT': Pressure Transducer (TPT)
+Sensor4 & Sensor5: Mass Flow Rate in Feed Flow and Top Outlet Stream
 
-'T-TPT': Temperature Transducer (TPT)
+Sensor6: Net Mass Flow in main tower
 
-'P-MON-CKP':
+Sensor7: Mole Fraction HX at reboiler
 
-'T-JUS-CKP':
+Sensor8: HX Mole Fraction in Top Outler Stream
 
-'P-JUS-CKGL':
+Sensor9 & Sensor10: Feed Mole Fraction
 
-'T-JUS-CKGL':
+Sensor11: Feed Tray Temperature
 
-'QGL':
+Sensor12: Main Tower Pressure
 
-'class':events_names
-]
+Sensor13: Bottom Tower Pressure
 
+Sensor14: Top Tower Pressure
+
+Sensor15: Reflux Ratio
+
+Sensor16: Duties Summary
+
+MoleFraction TX
+
+MoleFraction HX
