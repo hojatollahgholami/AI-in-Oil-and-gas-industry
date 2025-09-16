@@ -1,4 +1,4 @@
-در این مثال از داده های تاریخی سنسورهای کم\رسور گریز از مرکز استفاده شده است.
+در این مثال از داده های تاریخی سنسورهای کمپرسور گریز از مرکز استفاده شده است.
 
 Ref: Ntafalias, A., Chrysovalantis, S., Lamprinoudakis, P., & Kitsatoglou, A. (2025). Refinery Compressor Sensor Data, One-Year Dataset [Data set]. Zenodo. https://doi.org/10.5281/zenodo.14866092
 
