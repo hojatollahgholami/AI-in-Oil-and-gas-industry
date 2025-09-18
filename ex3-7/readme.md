@@ -3,6 +3,27 @@
 https://data.mendeley.com/datasets/r7774rwc7v/1
 
 Cite: Vargas, Ricardo; Munaro, Celso; Ciarelli, Patrick; Medeiros, André; Amaral, Bruno; Barrionuevo, Daniel; Araújo, Jean; Ribeiro, Jorge; Magalhães, Lucas (2019), “Data for: A Realistic and Public Dataset with Rare Undesirable Real Events in Oil Wells”, Mendeley Data, V1, doi: 10.17632/r7774rwc7v.1
+           
+columns = [
+
+'P-PDG':Permanent Downhole Gauge (PDG)
+
+,'P-TPT': Pressure Transducer (TPT)
+
+'T-TPT': Temperature Transducer (TPT)
+
+'P-MON-CKP': Upstream pressure at the production line's choke point (Pa)
+
+'T-JUS-CKP': Downstream temperature at the production line's choke point (°C).
+
+'P-JUS-CKGL': Gas-lift injection pressure
+
+'T-JUS-CKGL': Gas-lift injection temperature
+
+'QGL': Gas-lift flow rate
+
+'class':events_names
+]
 
 
 class{events_names = {0: 'Normal',
@@ -15,25 +36,3 @@ class{events_names = {0: 'Normal',
                 7: 'Scaling in PCK',
                 8: 'Hydrate in Production Line'
                }}
-               
-columns = [
-
-'P-PDG':Permanent Downhole Gauge (PDG)
-
-,'P-TPT': Pressure Transducer (TPT)
-
-'T-TPT': Temperature Transducer (TPT)
-
-'P-MON-CKP':
-
-'T-JUS-CKP':
-
-'P-JUS-CKGL':
-
-'T-JUS-CKGL':
-
-'QGL':
-
-'class':events_names
-]
-
