@@ -1,38 +1,38 @@
-در این مثال از دیتاست شبیه سازی یک برج تقطیر نفت استفاده شده است. 
+این مثال براساس دیتاست رویدادهای نادر و نامطلوب چاه های نفت و گاز پیاده سازی شده است. جهت دسترسی به دیتاست از آدرس زیر استفاده شود. فایل ها پس از دانلود. استخراج و در پوشه کاری قرار گیرد.
 
-Ref: https://www.kaggle.com/datasets/amarhaiqal/aspen-hysys-distillation-column-data/data 
+https://data.mendeley.com/datasets/r7774rwc7v/1
 
-This dataset simulates readings from distillation column which used to distillate HX and TX component
+Cite: Vargas, Ricardo; Munaro, Celso; Ciarelli, Patrick; Medeiros, André; Amaral, Bruno; Barrionuevo, Daniel; Araújo, Jean; Ribeiro, Jorge; Magalhães, Lucas (2019), “Data for: A Realistic and Public Dataset with Rare Undesirable Real Events in Oil Wells”, Mendeley Data, V1, doi: 10.17632/r7774rwc7v.1
+           
+columns = [
 
-Attributes
-Sensor1 : Liquid Percentage in Condenser
+'P-PDG':Permanent Downhole Gauge (PDG)
 
-Sensor2: Condenser Pressure
+,'P-TPT': Pressure Transducer (TPT)
 
-Sensor3: Liquid Percentage in Reboiler
+'T-TPT': Temperature Transducer (TPT)
 
-Sensor4 & Sensor5: Mass Flow Rate in Feed Flow and Top Outlet Stream
+'P-MON-CKP': Upstream pressure at the production line's choke point (Pa)
 
-Sensor6: Net Mass Flow in main tower
+'T-JUS-CKP': Downstream temperature at the production line's choke point (°C).
 
-Sensor7: Mole Fraction HX at reboiler
+'P-JUS-CKGL': Gas-lift injection pressure
 
-Sensor8: HX Mole Fraction in Top Outler Stream
+'T-JUS-CKGL': Gas-lift injection temperature
 
-Sensor9 & Sensor10: Feed Mole Fraction
+'QGL': Gas-lift flow rate
 
-Sensor11: Feed Tray Temperature
+'class':events_names
+]
 
-Sensor12: Main Tower Pressure
 
-Sensor13: Bottom Tower Pressure
-
-Sensor14: Top Tower Pressure
-
-Sensor15: Reflux Ratio
-
-Sensor16: Duties Summary
-
-MoleFraction TX
-
-MoleFraction HX
+class{events_names = {0: 'Normal',
+                1: 'Abrupt Increase of BSW',
+                2: 'Spurious Closure of DHSV',
+                3: 'Severe Slugging',
+                4: 'Flow Instability',
+                5: 'Rapid Productivity Loss',
+                6: 'Quick Restriction in PCK',
+                7: 'Scaling in PCK',
+                8: 'Hydrate in Production Line'
+               }}

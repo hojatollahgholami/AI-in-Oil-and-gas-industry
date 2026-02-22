@@ -3,7 +3,7 @@ https://engineering.case.edu/bearingdatacenter/48k-drive-end-bearing-fault-data
 48k Drive End Bearking Fault Data
 Fault Diameter:	0.014"
 Motor Load (HP): 2
-Approx. Motor Speed (rpm):	
+Approx. Motor Speed (rpm): 1750	
 Inner Race: IR014_2
 
 
