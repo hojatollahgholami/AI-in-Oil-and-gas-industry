@@ -8,7 +8,7 @@ import qrcode
 
 plt.rcParams['font.family'] = 'Adobe Arabic'
 plt.rcParams["axes.unicode_minus"] = False
-plt.rcParams['font.size'] = 18
+plt.rcParams['font.size'] = 20
 
 # تابع کمکی برای نمایش صحیح متون فارسی
 def fa(text):
@@ -17,11 +17,9 @@ def fa(text):
 
 # ایجاد شکل
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(24, 12))
-fig.suptitle(fa('پیوند هوش مصنوعی و مدیریت انبار: کاهش هزینه‌ها با پیش‌بینی تقاضا'),
-             fontsize=24, fontweight='bold', color='#1a3d7c')
 
 # --- نمودار جریان فرآیند (سمت چپ) ---
-ax1.set_title(fa('فرآیند سفارش، نگهداری و تحویل قطعات'), fontsize=18, pad=20)
+ax1.set_title(fa('فرآیند سفارش، نگهداری و تحویل قطعات'), fontsize=24, pad=20)
 ax1.set_xlim(0, 10)
 ax1.set_ylim(0, 10)
 ax1.axis('off')
@@ -55,31 +53,30 @@ for x, y, text, ptype in processes:
 
     if ptype == 'process':
         ax1.add_patch(patches.Rectangle((x-1.5, y-0.5), 3, 1, color=color, alpha=0.9))
-        ax1.text(x, y, text, ha='center', va='center', fontsize=18)
+        ax1.text(x, y, text, ha='center', va='center', fontsize=20)
     elif ptype == 'decision':
         ax1.add_patch(patches.Polygon([(x-1.5, y), (x, y+0.8), (x+1.5, y), (x, y-0.8)],
                        color=color, alpha=0.9))
-        ax1.text(x, y, text, ha='center', va='center', fontsize=18)
+        ax1.text(x, y, text, ha='center', va='center', fontsize=20)
     elif ptype == 'data':
         ax1.add_patch(patches.Rectangle((x-1.5, y-0.5), 3, 1, color=color, alpha=0.9))
-        ax1.text(x, y, text, ha='center', va='center', fontsize=18)
+        ax1.text(x, y, text, ha='center', va='center', fontsize=20)
     elif ptype == 'end':
         ax1.add_patch(patches.Circle((x, y), 0.7, color=color, alpha=0.9))
-        ax1.text(x, y, text, ha='center', va='center', fontsize=18)
+        ax1.text(x, y, text, ha='center', va='center', fontsize=20)
 
 # فلش‌ها و اتصالات
 connections = [
-    (5, 9, 5, 8, ''),
-    (5, 7.8, 5, 7.2, ''),
-    (5, 7, 8, 7, fa('بله')),
-    (5, 7, 2, 7, fa('خیر')),
-    (2, 7, 2, 5.2, ''),
-    (2, 5, 2, 3.8, ''),
-    (2, 3, 5, 3.2, ''),
-    (5, 3, 5, 1.8, ''),
-    (8, 7, 8, 5.2, ''),
-    (8, 5, 5, 5, fa('گزارش مصرف')),
-    (5, 5, 5, 3.2, '')
+    (5, 8.5, 5, 7.7, ''),
+    (6, 7, 7, 7, fa('بله')),
+    (4, 7, 3, 7, fa('خیر')),
+    (2, 6.3, 2, 5.4, ''),
+    (2, 4.5, 2, 3.5, ''),
+    (3, 3, 4, 3, ''),
+    (5, 2.5, 5, 1.7, ''),
+    (8, 6.3, 8, 5.4, ''),
+    (6.5, 5, 5, 5, fa('گزارش مصرف')),
+    (5, 5, 5, 3.5, '')
 ]
 
 for x1, y1, x2, y2, label in connections:
@@ -93,55 +90,77 @@ for x1, y1, x2, y2, label in connections:
 ai_box = patches.Rectangle((0.5, 0.5), 9, 3, fill=False, linestyle='--',
                           edgecolor=colors['ai'], linewidth=2)
 ax1.add_patch(ai_box)
-ax1.text(8, 3.2, fa('پیش‌بینی هوش مصنوعی'), color=colors['ai'],
-        fontsize=18, fontweight='bold')
-ax1.text(8, 2.5, fa('• تحلیل مصرف تاریخی\n• پیش‌بینی تقاضای آینده\n• تعیین سطح بهینه موجودی'),
-        fontsize=16, va='top')
+ax1.text(7.5, 3, fa('پیش‌بینی هوش مصنوعی'), color=colors['ai'],
+        fontsize=20, fontweight='bold')
+ax1.text(7.5, 2.5, fa('• تحلیل مصرف تاریخی\n• پیش‌بینی تقاضای آینده\n• تعیین سطح بهینه موجودی'),
+        fontsize=18, va='top')
 
 # --- نمودار پیش‌بینی XGBoost (سمت راست) ---
-ax2.set_title(fa('پیش‌بینی تقاضای قطعات با الگوریتم XGBoost'), fontsize=18, pad=20)
+ax2.set_title(fa('پیش‌بینی تقاضای قطعات و بهینه‌سازی سیاست موجودی'), fontsize=24, pad=20)
 ax2.set_xlim(0, 10)
 ax2.set_ylim(0, 10)
 ax2.axis('off')
 
-# نمودار فرآیند پیش‌بینی
+# مراحل به‌روز شده
 stages = [
-    (1.5, 8, fa('داده‌های تاریخی'), '#4e79a7'),
-    (4, 8, fa('پیش‌پردازش داده‌ها'), '#59a14f'),
-    (6.5, 8, fa('مهندسی ویژگی‌ها'), '#f28e2c'),
-    (9, 8, fa('مدل XGBoost'), '#e15759'),
-    (9, 6, fa('پیش‌بینی تقاضا'), '#af7aa1'),
-    (6.5, 4, fa('بهینه‌سازی موجودی'), '#76b7b2'),
-    (4, 4, fa('کاهش هزینه‌ها'), '#59a14f'),
-    (1.5, 4, fa('گزارش مدیریتی'), '#4e79a7')
+    (1.2, 8.5, fa('داده‌های تاریخی'), '#4e79a7'),
+    (3.2, 8.5, fa('پیش‌پردازش داده‌ها'), '#59a14f'),
+    (5.2, 8.5, fa('مهندسی ویژگی‌ها'), '#f28e2c'),
+    (7.2, 8.5, fa('مدل XGBoost'), '#e15759'),
+    (9.2, 8.5, fa('پیش‌بینی تقاضا'), '#af7aa1'),
+
+    # بلوک‌های جدید لجستیکی
+    (7.5, 6.5, fa('محاسبه نقطه سفارش (ROP)'), '#76b7b2'),
+    (5.5, 5.2, fa('محاسبه مقدار سفارش (EOQ)'), '#76b7b2'),
+
+    (3.5, 4, fa('بهینه‌سازی موجودی'), '#59a14f'),
+    (1.5, 4, fa('کاهش هزینه‌ها'), '#4e79a7'),
+    (1.5, 2.5, fa('گزارش مدیریتی'), '#4e79a7')
 ]
 
 # رسم مراحل
 for x, y, text, color in stages:
-    ax2.add_patch(patches.Rectangle((x-1.2, y-0.4), 2.4, 0.8, color=color, alpha=0.9))
-    ax2.text(x, y, text, ha='center', va='center', fontsize=18, color='white')
+    ax2.add_patch(
+        patches.FancyBboxPatch(
+            (x-1.1, y-0.35), 2.2, 0.7,
+            boxstyle="round,pad=0.02",
+            facecolor=color, alpha=0.9
+        )
+    )
+    ax2.text(x, y, text, ha='center', va='center', fontsize=20, color='white')
 
-# اتصالات
+# اتصالات جدید منطقی
 connections = [
-    (1.5, 7.6, 4, 7.6),
-    (4, 7.6, 6.5, 7.6),
-    (6.5, 7.6, 9, 7.6),
-    (9, 7.6, 9, 6.4),
-    (9, 5.6, 6.5, 4.4),
-    (6.5, 3.6, 4, 4.4),
-    (4, 3.6, 1.5, 4.4)
+    (1.2, 8.1, 3.2, 8.1),
+    (3.2, 8.1, 5.2, 8.1),
+    (5.2, 8.1, 7.2, 8.1),
+    (7.2, 8.1, 9.2, 8.1),
+
+    # مسیر تصمیم‌گیری لجستیک
+    (9.2, 8.1, 7.5, 6.9),
+    (7.5, 6.1, 5.5, 5.6),
+    (5.5, 4.8, 3.55, 4.4),
+    (3, 3.7, 2, 3.7),
+    (1.5, 3.5, 1.5, 2.8)
 ]
 
-for i, (x1, y1, x2, y2) in enumerate(connections):
-    ax2.annotate("", xy=(x2, y2), xytext=(x1, y1),
-                 arrowprops=dict(arrowstyle="->", lw=2, color='#555555'))
-    if i == 4:  # فلش بازخورد
-        ax2.text((x1+x2)/2, (y1+y2)/2, fa('بازخورد'),
-                ha='center', va='center', backgroundcolor='white', fontsize=18)
+for (x1, y1, x2, y2) in connections:
+    ax2.annotate(
+        "",
+        xy=(x2, y2),
+        xytext=(x1, y1),
+        arrowprops=dict(arrowstyle="->", lw=2, color='#555555')
+    )
 
-# نمودار نمونه پیش‌بینی
-ax2.text(5, 2, fa('نمونه خروجی پیش‌بینی XGBoost'),
-        ha='center', va='center', fontsize=18, fontweight='bold')
+# توضیح علمی کوچک 
+ax2.text(
+    9.8, 7.2,
+    fa('ترکیب پیش‌بینی تقاضا\nبا سیاست‌های موجودی'),
+    fontsize=18,
+    ha='right',
+    va='center',
+    color='#1a3d7c'
+)
 
 # داده‌های نمونه
 months = [fa('فروردین'), fa('اردیبهشت'), fa('خرداد'), fa('تیر'), fa('مرداد'), fa('شهریور')]
@@ -161,25 +180,7 @@ ax2.fill_between(months[3:], [a-10 for a in actual[3:]], [a+10 for a in actual[3
                 color='#af7aa1', alpha=0.2)
 
 ax2.set_ylabel(fa('تعداد قطعات'), fontsize=18)
-ax2.legend(loc='lower center', fontsize=18)
 ax2.grid(True, linestyle='--', alpha=0.3)
-
-# باکس نتایج
-results = [
-    fa('کاهش ۳۰٪ موجودی انبار'),
-    fa('کاهش ۴۵٪ کمبود قطعات'),
-    fa('کاهش ۳۵٪ هزینه‌های نگهداری')
-]
-
-ax2.text(8, 1, fa('نتایج پیاده‌سازی:'), fontsize=18, fontweight='bold', ha='right')
-for i, res in enumerate(results):
-    ax2.text(8, 0.7-i*0.3, f"• {res}", fontsize=18, ha='right')
-
-# افزودن توضیح پایانی
-plt.figtext(0.5, 0.02,
-           fa('پیش‌بینی تقاضا با XGBoost با دقت ۹۲٪ منجر به بهینه‌سازی موجودی و کاهش ۳۵٪ هزینه‌های انبارداری شد'),
-           ha='center', fontsize=18, fontstyle='italic', color='#1a3d7c',
-           bbox=dict(boxstyle='round', facecolor='#e0e0ff', alpha=0.7))
 
 # -----------------------
 # QR Code
@@ -193,7 +194,7 @@ img = qr.make_image(fill_color="black", back_color="white").convert("RGBA")
 img_np = np.array(img)
 imagebox = OffsetImage(img_np, zoom=1.2)
 ab = AnnotationBbox(imagebox,
-                    (0.07, 0.8),
+                    (0.07, 0.75),
                     xycoords='figure fraction',
                     frameon=False)
 
